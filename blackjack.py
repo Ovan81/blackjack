@@ -21,12 +21,14 @@ class player:
     hand=0
 
 players = []
-
-amount_of_p = int(input("eopfewokf"))
-
-for i in range(amount_of_p):
+playercount = input("how many will play? ")
+print(playercount)
+while not playercount.isdigit():
+    playercount = input("wrong input, type in numbers only please!")
+playercount = int(playercount)
+for i in range(playercount):
     players[i] = player()
-
+print(len.players)
 def cardpicker():
     choice=(random.randint(0, len(clubs) + len(hearts) + len(spades) + len(diamonds)))
     if choice <= len(clubs) :
