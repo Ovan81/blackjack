@@ -14,45 +14,43 @@ class Deck:
         random.shuffle(self.deck)
 
 class Hand:
-    hand=0
-    def add_card(self, card):
-        hand += card
+    
+    def __init__(self):
+        self.hand=0
+
+    def add_card(self, cardvalue):
+        """ cardvalue 1, 2, 3, 10, 11, 12, 13"""
+        hand += cardvalue
+
+    def sum(self):
+        return -1
 
    
 
 class Card:
 
-    def __init__(self, cardvalue):
-        cardtype()
-        suit = ""
-    def cardtype(self,deck):
-        if deck[0] <= 13:
+    def __init__(self, cardindex):
+        """ cardindex 1, 2, ... 52 """
+
+        if cardindex <= 13:
             self.suit= "clubs"
-        elif deck[0] > 13 and deck[0] <= 26:
+        elif cardindex > 13 and cardindex <= 26:
             self.suit = "diamonds"
-        elif deck[0] > 26 and deck[0] <= 39:
+        elif cardindex > 26 and cardindex <= 39:
             self.suit = "hearts"
         else:
             self.suit = "spades"
         print(self.suit)
     
-    def cardvalue(self, deck): 
-        if deck[0] <= 13:
-            None
-        elif deck[0] >= 13 and deck[0] < 26:
-            deck[0] -= 13
-        elif deck[0] >= 26 and deck[0] < 39:
-            deck[0] -= 26
-        else:
-            deck[0] -= 39
-        print(deck[0])
+        self.value = cardindex % 14
+
 
 class Game:
     
-    Deck = Deck()
-    Player = Hand()
-    Computer = Hand()
-    Card = Card()
+    deck = Deck()
+    player = Hand()
+    computer = Hand()
+
 
     isplaying = ""
     
