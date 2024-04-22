@@ -28,9 +28,31 @@ class Deck:
         random.shuffle(self.deck)
 
 class Hand:
-    Hand=[]
+    computerhand = 0
+    playerhand = 0
 class Card:
-    None
+    suit = ""
+    def cardtype(self,deck):
+        if deck[0] <= 13:
+            self.suit= "clubs"
+        elif deck[0] > 13 and deck[0] <= 26:
+            self.suit = "diamonds"
+        elif deck[0] > 26 and deck[0] <= 39:
+            self.suit = "hearts"
+        else:
+            self.suit = "spades"
+        print(self.suit)
+    
+    def cardvalue(self, deck): 
+        if deck[0] <= 13:
+            None
+        elif deck[0] >= 13 and deck[0] < 26:
+            deck[0] -= 13
+        elif deck[0] >= 26 and deck[0] < 39:
+            deck[0] -= 26
+        else:
+            deck[0] -= 39
+        print(deck[0])
 
 Game = Game()
 Deck = Deck()
@@ -45,6 +67,11 @@ while Game.keepgoing == True:
 
     Deck.shuffledeck()
     print(Deck.deck)
+    Card.cardtype(Deck.deck)
+    Card.cardvalue(Deck.deck)
 
     break
 
+tempcard = deck[0]
+deck.remove(0)
+hand.append(tempcard)
