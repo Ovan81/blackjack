@@ -4,7 +4,7 @@ question = "do you want to play? (y/n)"
 playerhand=[]
 computerhand=[]
 deck=[]
-
+action=None
 def play(question):
     isplaying = ""
     
@@ -67,6 +67,32 @@ def addcardtohand(deck, hand):
         deck.pop(0)
         hand.append(tempcard)
 
+def hitorstand(turn, action):
+    if turn== "player":
+        if action != "s":
+            action=None
+            while action != "h" and action != "s":
+                action=input("hit or stand? (h/s)").lower()
+                if action == "h":
+                    addcardtohand(deck, playerhand)
+                    cardtype=cardsuit(playerhand[-1])
+                    cardvalue=cardindex(playerhand[-1])
+                    print("you got", cardvalue, "of", cardtype + "!")
+                elif action == "s":
+
+                    print("too bad :(")
+                else:
+                    play=input("type h or s, please.").lower()
+        else:
+            None
+    else:
+        if sum(computerhand) <= 16:
+            addcardtohand(deck, playerhand)
+            cardtype=cardsuit(playerhand[-1])
+            cardvalue=cardindex(playerhand[-1])
+            print("The dealer drew another card!")
+        else:
+            None
 
 while play(question) == True:
     deck.clear
@@ -96,6 +122,12 @@ while play(question) == True:
     cardvalue=cardindex(computerhand[-1])
     print("The dealer got dealt a second card!")
 
+    hitorstand(player, action)
+    hitorstand(computerhand, action)
+
+
+
+
     if bust(playerhand) == False and bust(computerhand) == True:
         print ("You won!")
     elif bust(playerhand) == False and bust(computerhand) == True:
@@ -103,11 +135,6 @@ while play(question) == True:
     else:
         print("It's a tie!")
 
-    
-
-    
-
-   
 
     question = ("do you want to play again? (y/n)")
     
