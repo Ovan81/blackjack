@@ -19,6 +19,12 @@ def play(question):
             play=input("type y or n, please.").lower()
     return isplaying
 
+def bust(hand):
+    if sum(hand) > 21:
+        return True
+    else:
+        return False
+    
 def cardsuit(card):
     if card <= 13:
         suit= "clubs"
@@ -35,9 +41,9 @@ def cardindex (card):
     cardvalue=card
     if cardvalue <= 13:
         None
-    elif cardvalue >= 13 and cardvalue < 26:
+    elif cardvalue > 13 and cardvalue <= 26:
         cardvalue -= 13
-    elif cardvalue >= 26 and cardvalue < 39:
+    elif cardvalue > 26 and cardvalue <= 39:
         cardvalue -= 26
     else:
         cardvalue -= 39
@@ -67,14 +73,14 @@ while play(question) == True:
     for i in range(1,53):
         deck.append(i)
     random.shuffle(deck)
-        
+    print(deck)
 
 
     addcardtohand(deck, playerhand)
     cardtype=cardsuit(playerhand[-1])
     cardvalue=cardindex(playerhand[-1])
     print("you got", cardvalue, "of", cardtype + "!")
-
+    print(bust(playerhand))
     addcardtohand(deck, computerhand)
     cardtype=cardsuit(computerhand[-1])
     cardvalue=cardindex(computerhand[-1])
@@ -84,6 +90,21 @@ while play(question) == True:
     cardtype=cardsuit(playerhand[-1])
     cardvalue=cardindex(playerhand[-1])
     print("you got", cardvalue, "of", cardtype + "!")
+
+    addcardtohand(deck, computerhand)
+    cardtype=cardsuit(computerhand[-1])
+    cardvalue=cardindex(computerhand[-1])
+    print("The dealer got dealt a second card!")
+
+    if bust(playerhand) == False and bust(computerhand) == True:
+        print ("You won!")
+    elif bust(playerhand) == False and bust(computerhand) == True:
+        print("The dealer won!")
+    else:
+        print("It's a tie!")
+
+    
+
     
 
    
