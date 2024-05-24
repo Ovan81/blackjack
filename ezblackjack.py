@@ -1,5 +1,6 @@
 #blackjack-regler tas frän https://www.star.com.au/goldcoast/sites/star.com.au.goldcoast/files/Blackjack.pdf, men ändringar i reglerna kan ske.
 import random
+import time
 question = "do you want to play? (y/n)"
 playerhand=[]
 computerhand=[]
@@ -14,6 +15,7 @@ def play(question):
             isplaying = True
         elif play == "n":
             isplaying = False
+            time.sleep(1)
             print("too bad :(")
         else:
             print("type y or n please")
@@ -72,18 +74,22 @@ def hitorstand():
     action=None
     while action != "h" and action != "s":
         action=input("hit or stand? (h/s)").lower()
+        time.sleep(1)
         if action == "h":
             cardtype=cardsuit()
             cardvalue=addcardtohand(deck, playerhand)
             print("you got", cardvalue, "of", cardtype + "!")
-            print("your card total is now", sum(playerhand))
+            time.sleep(1)
+            
             action=None
             if sum(playerhand) > 21 and 11 in playerhand:
                 playerhand[playerhand.index(11)]=1
             elif sum(playerhand) >21:
                 action="s"
+            print("your card total is now", sum(playerhand))
+            time.sleep(1)
         elif action == "s":
-            None
+            time.sleep(1)
         else:
             print("wrong input!")
 
@@ -96,32 +102,37 @@ def computerhit():
                 playerhand[playerhand.index(11)]=1
 
 while play(question) == True:
-    deck.clear
-    playerhand.clear
-    computerhand.clear
+    deck.clear()
+    playerhand.clear()
+    computerhand.clear()
     for i in range(1,53):
         deck.append(i)
     random.shuffle(deck)
+    time.sleep(1)
 
     cardtype=cardsuit()
     cardvalue=addcardtohand(deck, playerhand)
     print("you got", cardvalue, "of", cardtype + "!")
+    time.sleep(1)
 
     cardtype=cardsuit()
     cardvalue=addcardtohand(deck, computerhand)
     print("The dealer got", cardvalue, "of", cardtype + "!")
-   
+    time.sleep(1)
+
     cardtype=cardsuit()
     cardvalue=addcardtohand(deck, playerhand)
     print("you got", cardvalue, "of", cardtype + "!")
-  
+    time.sleep(1)
+
     cardtype=cardsuit()
     cardvalue=addcardtohand(deck, computerhand)
     print("The dealer got dealt a second card!")
+    time.sleep(1)
 
     print("your card total is now", sum(playerhand))
+    time.sleep(1)
 
-    print(playerhand)
     hitorstand()
     computerhit()
 
@@ -139,6 +150,7 @@ while play(question) == True:
         print ("the the dealer won!")
     else:
         print ("It's a tie!")
+    time.sleep(1)
 
 
     question = ("do you want to play again? (y/n)")
