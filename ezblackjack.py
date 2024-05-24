@@ -4,6 +4,7 @@ question = "do you want to play? (y/n)"
 playerhand=[]
 computerhand=[]
 deck=[]
+
 def play(question):
     isplaying = ""
     
@@ -15,127 +16,127 @@ def play(question):
             isplaying = False
             print("too bad :(")
         else:
-            play=input("type y or n, please.").lower()
+            print("type y or n please")
     return isplaying
-
-def bust(hand):
-    if sum(hand) > 21:
-        return True
-    else:
-        return False
     
-def cardsuit(card):
-    if card <= 13:
+def cardsuit():
+    if deck[0] <= 13:
         suit= "clubs"
-    elif card > 13 and card <= 26:
+    elif deck[0] > 13 and deck[0] <= 26:
         suit = "diamonds"
-    elif card > 26 and card <= 39:
+    elif deck[0] > 26 and deck[0] <= 39:
         suit = "hearts"
     else:
         suit = "spades"
 
     return suit
 
-def cardindex (card): 
-    cardvalue=card
-    if cardvalue <= 13:
-        None
-    elif cardvalue > 13 and cardvalue <= 26:
-        cardvalue -= 13
-    elif cardvalue > 26 and cardvalue <= 39:
-        cardvalue -= 26
-    else:
-        cardvalue -= 39
 
-    if cardvalue == 1:
-        cardvalue ="ace"
-    elif cardvalue == 11:
-        cardvalue = "knight"
-    elif cardvalue == 12:
-        cardvalue = "queen"
-    elif cardvalue == 13:
-        cardvalue = "king"
-    else:
-        None
-    return cardvalue
-    
     
 
 def addcardtohand(deck, hand):
-        tempcard = deck[0]
-        deck.pop(0)
-        hand.append(tempcard)
+    tempcard = deck[0]
+    deck.pop(0)
+    hand.append(tempcard)
 
-def hitorstand(action):
-    if action != "s":
-        action=None
-        while action != "h" and action != "s":
-            action=input("hit or stand? (h/s)").lower()
-            if action == "h":
-                addcardtohand(deck, playerhand)
-                cardtype=cardsuit(playerhand[-1])
-                cardvalue=cardindex(playerhand[-1])
-                print("you got", cardvalue, "of", cardtype + "!")
-                action=None
-                if sum(playerhand) >= 21:
-                    action = "s"
-            elif action == "s":
-                None
-            else:
-                print("wrong input!")
+    if  hand[-1] <= 13:
+        None
+    elif hand[-1] > 13 and hand[-1] <= 26:
+        hand[-1] -= 13
+    elif hand[-1] > 26 and hand[-1] <= 39:
+        hand[-1] -= 26
+    else:
+        hand[-1] -= 39
+
+
+
+    if hand[-1] == 11:
+        hand[-1]=10
+        presentingvalue="knight"
+    elif hand[-1] == 12:
+        hand[-1]=10
+        presentingvalue="queen"
+    elif hand[-1] == 13:
+        hand[-1]=10
+        presentingvalue="king"
+    elif hand[-1]==1:
+        hand[-1]=11
+        presentingvalue="ace"
+    else:
+        presentingvalue=hand[-1]
+
+    return presentingvalue
+    
+
+def hitorstand():
+    action=None
+    while action != "h" and action != "s":
+        action=input("hit or stand? (h/s)").lower()
+        if action == "h":
+            cardtype=cardsuit()
+            cardvalue=addcardtohand(deck, playerhand)
+            print("you got", cardvalue, "of", cardtype + "!")
+            print("your card total is now", sum(playerhand))
+            action=None
+            if sum(playerhand) > 21 and 11 in playerhand:
+                playerhand[playerhand.index(11)]=1
+            elif sum(playerhand) >21:
+                action="s"
+        elif action == "s":
+            None
+        else:
+            print("wrong input!")
 
 
 def computerhit():
     while sum(computerhand) <= 16:
-        addcardtohand(deck, playerhand)
-        cardtype=cardsuit(playerhand[-1])
-        cardvalue=cardindex(playerhand[-1])
-        print("The dealer drew another card!")
+        cardtype=cardsuit()
+        cardvalue=addcardtohand(deck, computerhand)
+        if sum(playerhand) > 21 and 11 in playerhand:
+                playerhand[playerhand.index(11)]=1
 
 while play(question) == True:
     deck.clear
+    playerhand.clear
+    computerhand.clear
     for i in range(1,53):
         deck.append(i)
     random.shuffle(deck)
-    print(deck)
 
-
-    addcardtohand(deck, playerhand)
-    cardtype=cardsuit(playerhand[-1])
-    cardvalue=cardindex(playerhand[-1])
+    cardtype=cardsuit()
+    cardvalue=addcardtohand(deck, playerhand)
     print("you got", cardvalue, "of", cardtype + "!")
-    print(bust(playerhand))
 
-    addcardtohand(deck, computerhand)
-    cardtype=cardsuit(computerhand[-1])
-    cardvalue=cardindex(computerhand[-1])
+    cardtype=cardsuit()
+    cardvalue=addcardtohand(deck, computerhand)
     print("The dealer got", cardvalue, "of", cardtype + "!")
-
-    addcardtohand(deck, playerhand)
-    cardtype=cardsuit(playerhand[-1])
-    cardvalue=cardindex(playerhand[-1])
+   
+    cardtype=cardsuit()
+    cardvalue=addcardtohand(deck, playerhand)
     print("you got", cardvalue, "of", cardtype + "!")
-
-    addcardtohand(deck, computerhand)
-    cardtype=cardsuit(computerhand[-1])
-    cardvalue=cardindex(computerhand[-1])
+  
+    cardtype=cardsuit()
+    cardvalue=addcardtohand(deck, computerhand)
     print("The dealer got dealt a second card!")
 
-    hitorstand(action)
+    print("your card total is now", sum(playerhand))
+
+    print(playerhand)
+    hitorstand()
     computerhit()
 
 
 
 
-
-    if bust(playerhand) == True:
-        print ("You went busto!") 
-    elif bust(computerhand) == True:
-        print ("The dealer went Busto!")
-    elif sum(playerhand) > computerhand:
-        print ("you went busto!")
-    elif sum(playerhand) < computerhand:
-        print ("the dealer went busto!")
+    
+    if sum(playerhand) > 21:
+        print ("You went busto, the dealer wins!") 
+    elif sum(computerhand) > 21:
+        print ("The dealer went Busto, you win!")
+    elif sum(playerhand) > sum(computerhand):
+        print ("you won!")
+    elif sum(playerhand) < sum(computerhand):
+        print ("the the dealer won!")
     else:
         print ("It's a tie!")
 
